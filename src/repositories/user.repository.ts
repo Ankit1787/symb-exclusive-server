@@ -13,7 +13,7 @@ export const findUserByEmailOrPhoneNumber = async (identifier: string): Promise<
   ] });
 }
 export const findUserById = async (id: string): Promise<UserDocument | null> => {
-    return UserModel.findById(id).select("-password");
+    return UserModel.findById(id)
 }
 export const updateUserById = async (id: string, updateData: UserProfileRequest): Promise<UserDocument | null> => {
     return UserModel.findByIdAndUpdate(id, { $set: updateData }, { new: true }).select("-password");

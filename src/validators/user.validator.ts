@@ -26,6 +26,11 @@ export const updateProfileSchema = z.object({
       country: z.string(),
     })
     .optional(),
+    phoneNumber:
+    z.string().optional(),
+    currentPassword: z.string().optional(),
+    newPassword: z.string().min(6).optional(),
+    confirmPassword: z.string().min(6).optional(),
 });
 
 export const validateRegisterUser = (data: unknown) => {

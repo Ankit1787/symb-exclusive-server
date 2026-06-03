@@ -54,6 +54,7 @@ export const updateProfile = async (req: Request, res: Response): Promise<void> 
         const userId = req.user?.id;
         const updateData = req.body;
         const updatedUser = await updateUserProfile(userId, updateData);
+       
         res.status(200).json({
             success: true,
             message: "User profile updated successfully",
@@ -61,6 +62,7 @@ export const updateProfile = async (req: Request, res: Response): Promise<void> 
         });
     }
     catch(error){
+      console.log(error)
         res.status(500).json({ success: false, message: "Failed to update user profile" });
     }
 };

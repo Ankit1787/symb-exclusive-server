@@ -30,6 +30,9 @@ export interface UserProfileRequest {
   firstName?: string;
   lastName?: string;
   email?: string;
-  password?: string;
+  currentPassword?: string;
+  newPassword?: string;
+  confirmPassword?:string;
   address?: AddressDto;
+  
 }
