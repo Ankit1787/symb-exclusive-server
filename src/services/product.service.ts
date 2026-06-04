@@ -1,5 +1,5 @@
 import { CollectionType, IProduct, ProductDocument } from "../models/product.model.js";
-import { getAllProducts, getProductByCategory, getProductById, createNewProduct,getSimilarProduct, getProductByCollections } from "../repositories/product.repository.js";
+import { getAllProducts, getProductByCategory, getProductById, createNewProduct,getSimilarProduct, getProductByCollections, searchProducts as repoSearchProducts } from "../repositories/product.repository.js";
 
 export const getProducts = async (): Promise<ProductDocument[]> => {
   const products = await getAllProducts();
@@ -24,6 +24,12 @@ export const getSimilarProducts = async (category: string, excludeId: string): P
   return similarProducts;
 }  
 
+export const searchProducts = async (term: string): Promise<ProductDocument[]> => {
+  if (!term || !term.trim()) return [];
+  const results = await repoSearchProducts(term.trim());
+  return results;
+}
+
 export const createProduct = async (productData: IProduct[]): Promise<ProductDocument[]> => {
 const data = productData
   .filter(product => product.images && product.images.length > 2)
@@ -44,5 +50,6 @@ export default {
     getProductsByCategory,
     getProductByCollection,
     createProduct,
-    getSimilarProducts
+  getSimilarProducts,
+  searchProducts
 }

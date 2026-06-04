@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import productService from "../services/product.service.js";
 import { CollectionType, IProduct } from "../models/product.model.js";
-import { _discriminatedUnion } from "zod/v4/core";
 
 export const getAllProducts = async (
   req: Request,
@@ -106,5 +105,15 @@ export const getSimilarProducts = async (
     res
       .status(500)
       .json({ success: false, message: "Failed to fetch similar products" });
+  }
+};
+
+export const searchProducts = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const q = (req.query.q as string) || "";
+    const results = await productService.searchProducts(q);
+    res.json({ success: true, data: results });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Failed to search products" });
   }
 };

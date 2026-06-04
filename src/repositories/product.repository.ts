@@ -23,4 +23,15 @@ export const getProductByCollections=async (collection:CollectionType): Promise<
     return await ProductModel.find(query)
 
 };
+export const searchProducts = async (term: string): Promise<ProductDocument[]> => {
+    const regex = new RegExp(term, "i");
+    return await ProductModel.find({
+        $or: [
+            { title: regex },
+            { category: regex },
+            { tags: regex },
+            { brand: regex }
+        ]
+    }).limit(50);
+};
 // updateCategory()
