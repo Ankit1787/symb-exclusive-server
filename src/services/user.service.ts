@@ -3,9 +3,18 @@ import {
   RegisterUserDto,
   UserProfileRequest,
 } from "../dto/user.dto.js";
-import { createUser, findUserByEmailOrPhoneNumber, findUserById } from "../repositories/user.repository.js";
+import {
+  createUser,
+  findUserByEmail,
+  findUserByEmailOrPhoneNumber,
+  findUserById,
+  updateUserPassword,
+} from "../repositories/user.repository.js";
 import { comparePassword, hashPassword } from "../utils/bcryptjs.js";
-import generateToken from "../utils/jwt.js";
+import generateToken, {
+  generatePasswordResetToken,
+  verifyToken,
+} from "../utils/jwt.js";
 import * as z from "zod";
 export const registerUser = async (
   userData: RegisterUserDto,
@@ -50,7 +59,8 @@ export const loginUser = async (
   if (!user) {
     throw new Error("User not found");
   }
-  const passwordMatches = comparePassword(password, user.password);
+  console.log(user.password,password)
+  const passwordMatches = await comparePassword(password, user.password);
   if (!passwordMatches) {
     throw new Error("Invalid password");
   }
@@ -62,6 +72,48 @@ export const loginUser = async (
       email: user.email,
     },
     token,
+  };
+};
+
+export const forgotPassword = async (email: string) => {
+  const user = await findUserByEmail(email);
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const resetToken = generatePasswordResetToken(user);
+  return {
+    message: "Password reset token created successfully",
+    resetToken,
+  };
+};
+
+export const resetPassword = async (
+  token: string,
+  newPassword: string,
+  confirmPassword: string,
+) => {
+  if (newPassword !== confirmPassword) {
+    throw new Error("Passwords do not match");
+  }
+
+  const payload = verifyToken(token);
+  const userId = payload.id as string | undefined;
+
+  if (!userId) {
+    throw new Error("Invalid or expired token");
+  }
+
+  const user = await findUserById(userId);
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  user.password = await hashPassword(newPassword);
+  await user.save();
+
+  return {
+    message: "Password has been reset successfully",
   };
 };
 export const getUserProfile = async (userId: string | undefined) => {

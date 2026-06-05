@@ -18,6 +18,20 @@ export default function generateToken(user: { _id: Types.ObjectId }):string {
   return token;
 }
 
+export function generatePasswordResetToken(user: { _id: Types.ObjectId }): string {
+  const token = jwt.sign(
+    {
+      id: user._id,
+      type: "password_reset",
+    },
+    config.jwtSecret,
+    {
+      expiresIn: "1h",
+    },
+  );
+  return token;
+}
+
 export function verifyToken(token: string): JwtPayload {
   const decoded = jwt.verify(token, config.jwtSecret);
   return decoded as JwtPayload;

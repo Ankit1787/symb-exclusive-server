@@ -33,6 +33,16 @@ export const updateProfileSchema = z.object({
     confirmPassword: z.string().min(6).optional(),
 });
 
+export const forgotPasswordSchema = z.object({
+  email: z.string().email("Invalid email"),
+});
+
+export const resetPasswordSchema = z.object({
+  token: z.string().min(1),
+  newPassword: z.string().min(6, "Password must be at least 6 characters"),
+  confirmPassword: z.string().min(6, "Password must be at least 6 characters"),
+});
+
 export const validateRegisterUser = (data: unknown) => {
   return registerUserSchema.parse(data);
 };

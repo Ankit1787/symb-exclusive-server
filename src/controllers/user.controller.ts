@@ -1,5 +1,12 @@
 import { Request, Response } from "express";
-import { getUserProfile, loginUser, registerUser, updateUserProfile } from "../services/user.service.js";
+import {
+  forgotPassword as forgotPasswordService,
+  getUserProfile,
+  loginUser,
+  registerUser,
+  resetPassword as resetPasswordService,
+  updateUserProfile,
+} from "../services/user.service.js";
 
 export const register = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -31,6 +38,34 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     res
       .status(500)
       .json({ success: false, message: "Failed to login user" });
+  }
+};
+
+export const forgotPassword = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { email } = req.body;
+    const response = await forgotPasswordService(email);
+    res.status(200).json({
+      success: true,
+      message: "Password reset token created successfully",
+      data: response,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Failed to create reset token" });
+  }
+};
+
+export const resetPassword = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { token, newPassword, confirmPassword } = req.body;
+    const response = await resetPasswordService(token, newPassword, confirmPassword);
+    res.status(200).json({
+      success: true,
+      message: response.message,
+      data: response,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Failed to reset password" });
   }
 };
 

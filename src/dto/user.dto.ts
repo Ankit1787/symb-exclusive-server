@@ -3,6 +3,14 @@ export interface LoginUserDto {
   email: string;
   password: string;
 }
+export interface ForgotPasswordDto {
+  email: string;
+}
+export interface ResetPasswordDto {
+  token: string;
+  newPassword: string;
+  confirmPassword: string;
+}
 export interface AddressDto {
   addressLine1?: string;
   addressLine2?: string;
