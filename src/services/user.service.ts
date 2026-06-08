@@ -75,8 +75,8 @@ export const loginUser = async (
   };
 };
 
-export const forgotPassword = async (email: string) => {
-  const user = await findUserByEmail(email);
+export const forgotPassword = async (identifier: string) => {
+  const user = await findUserByEmailOrPhoneNumber(identifier);
   if (!user) {
     throw new Error("User not found");
   }

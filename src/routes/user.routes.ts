@@ -1,4 +1,4 @@
-import  Router from "express";
+import Router from "express";
 import { forgotPassword, getProfile, login, register, resetPassword, updateProfile } from "../controllers/user.controller.js";
 import { authMiddleware } from "../middleware/auth.js";
 import { validateRequest } from "../middleware/validate.middlware.js";

@@ -43,8 +43,8 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
 export const forgotPassword = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { email } = req.body;
-    const response = await forgotPasswordService(email);
+    const { identifier } = req.body;
+    const response = await forgotPasswordService(identifier);
     res.status(200).json({
       success: true,
       message: "Password reset token created successfully",
