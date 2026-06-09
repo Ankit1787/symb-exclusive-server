@@ -46,6 +46,6 @@ export const deleteOrder = async (orderId: string): Promise<OrderDocument | null
   return await OrderModel.findByIdAndDelete(orderId);
 };
 
-export const getOrdersByStatus = async (status: IOrder["status"]): Promise<OrderDocument[]> => {
-  return await OrderModel.find({ status }).sort({ createdAt: -1 });
+export const getOrdersByStatus = async (status: IOrder["status"],userId:string): Promise<OrderDocument[]> => {
+  return await OrderModel.find({ status,userId }).sort({ createdAt: -1 });
 };

@@ -53,6 +53,6 @@ export const removeOrder = async (orderId: string): Promise<OrderDocument | null
   return await deleteOrder(orderId);
 };
 
-export const getOrdersByStatusService = async (status: IOrder["status"]): Promise<OrderDocument[]> => {
-  return await getOrdersByStatus(status);
+export const getOrdersByStatusService = async (status: IOrder["status"],userId:string): Promise<OrderDocument[]> => {
+  return await getOrdersByStatus(status,userId);
 };

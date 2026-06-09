@@ -23,7 +23,7 @@ router.get("/",authMiddleware,  fetchAllOrders);
 router.get("/user/:userId", fetchUserOrders);
 
 // Get orders by status
-router.get("/status/:status", getOrdersByStatus);
+router.get("/status/:status", authMiddleware,getOrdersByStatus);
 
 // Get specific order
 router.get("/:orderId", fetchOrderById);

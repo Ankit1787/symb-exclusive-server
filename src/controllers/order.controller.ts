@@ -206,7 +206,8 @@ export const getOrdersByStatus = async (
 ): Promise<void> => {
   try {
     const status = req.params.status as IOrder["status"];
-    const orders = await getOrdersByStatusService(status);
+    const userId= req.user?.id as string;
+    const orders = await getOrdersByStatusService(status,userId);
     res.status(200).json({
       success: true,
       message: `Orders with status '${status}' fetched successfully`,

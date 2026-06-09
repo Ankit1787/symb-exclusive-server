@@ -32,7 +32,7 @@ export interface IOrder {
     phoneNumber: string;
     email: string;
   };
-  status: "pending" | "confirmed" | "shipped" | "delivered" | "cancelled";
+  status: "pending" | "confirmed" | "shipped" | "delivered" | "cancelled" |"returned";
   paymentMethod: string;
   paymentStatus: "pending" | "completed" | "failed";
   notes?: string;

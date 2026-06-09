@@ -28,7 +28,7 @@ export interface PlaceOrderDto {
 }
 
 export interface UpdateOrderStatusDto {
-  status: "pending" | "confirmed" | "shipped" | "delivered" | "cancelled";
+  status: "pending" | "confirmed" | "shipped" | "delivered" | "cancelled"|"returned";
 }
 
 export interface UpdatePaymentStatusDto {
