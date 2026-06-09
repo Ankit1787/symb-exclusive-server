@@ -59,7 +59,6 @@ export const loginUser = async (
   if (!user) {
     throw new Error("User not found");
   }
-  console.log(user.password,password)
   const passwordMatches = await comparePassword(password, user.password);
   if (!passwordMatches) {
     throw new Error("Invalid password");

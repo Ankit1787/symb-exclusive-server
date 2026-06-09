@@ -18,6 +18,7 @@ app.get("/", (_req: Request, res: Response) => {
 });
 app.use("/api/products", (await import("./routes/product.route.js")).default);
 app.use("/api/auth", (await import("./routes/user.routes.js")).default);
+app.use("/api/orders", (await import("./routes/order.routes.js")).default);
 
 
 async function startServer() {

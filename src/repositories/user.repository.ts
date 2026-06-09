@@ -81,7 +81,6 @@ export const updateUserById = async (
 
 const creteaVar = async () => {
   const res = await ProductModel.find({});
-  console.log(res);
   for (let i = 0; i < res.length; i++) {
     let varaints = generateVariants(
       res[i].title
