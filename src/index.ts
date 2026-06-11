@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import { connectDB } from "./config/database.js";
 import { config } from "./config/config.js";
-import cors from "cors"
+import cors from "cors";
 const app = express();
 const port = config.port;
 app.use(cors())
@@ -17,6 +17,7 @@ app.get("/", (_req: Request, res: Response) => {
   res.json({ message: "Hello from server" });
 });
 app.use("/api/products", (await import("./routes/product.route.js")).default);
+app.use("/api/ai", (await import("./ai/ai.routes.js")).default);
 app.use("/api/auth", (await import("./routes/user.routes.js")).default);
 app.use("/api/orders", (await import("./routes/order.routes.js")).default);
 
