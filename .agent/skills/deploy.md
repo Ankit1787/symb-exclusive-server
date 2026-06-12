@@ -1,14 +1,22 @@
 # Backend Deployment Skill
 
-This skill documents how to deploy the Express TypeScript backend to cloud hosting platforms.
+This skill documents how to deploy the Express TypeScript backend to cloud hosting platforms like Render or using Docker containers.
 
 ## Deployment Target Options
 
-### Option A: Deploy to Render (Recommended)
-Render is a cloud hosting provider that supports Node.js web services.
+### Option A: Automated Deploy via GitHub Actions & Render (Recommended)
+We have configured a deployment trigger in `.github/workflows/deploy.yml` that fires on pushes to the `main` branch.
 
+#### Setup Repository Secrets on GitHub:
+1. Go to your server repository -> **Settings** -> **Secrets and variables** -> **Actions**.
+2. Add the following secret:
+   - `RENDER_DEPLOY_HOOK_URL`: The Deploy Hook URL provided by Render in your Web Service dashboard settings (looks like `https://api.render.com/deploy/srv-...`).
+
+---
+
+### Option B: Direct Deploy to Render
 1. **Create Web Service**: Create a new Web Service on Render and link your GitHub repository.
-2. **Configure Root Directory**: Set the root directory to `server/` (since this is a multi-repo umbrella project).
+2. **Configure Root Directory**: Leave as default root (since this repository has Express at the root).
 3. **Configure Environment**:
    - Environment: `Node`
    - Build Command: `npm install && npm run build`
@@ -18,10 +26,12 @@ Render is a cloud hosting provider that supports Node.js web services.
    - `MONGO_URI=mongodb+srv://...` (your production MongoDB cluster connection string)
    - `JWT_SECRET=your_production_secret`
 
-### Option B: Deploy with Docker
+---
+
+### Option C: Deploy with Docker
 If deploying to platforms like AWS ECS, Fly.io, or Google Cloud Run, use the Docker-based deployment:
 
-1. Create a `Dockerfile` in the `server/` folder:
+1. Create a `Dockerfile` in the server root folder:
    ```dockerfile
    FROM node:20-alpine AS builder
    WORKDIR /app
@@ -42,9 +52,9 @@ If deploying to platforms like AWS ECS, Fly.io, or Google Cloud Run, use the Doc
    ```
 2. Build the Docker image:
    ```powershell
-   docker build -t exclusive-backend ./server
+   docker build -t exclusive-backend .
    ```
 3. Run the container:
    ```powershell
-   docker run -p 5001:5001 --env-file ./server/.env exclusive-backend
+   docker run -p 5001:5001 --env-file .env exclusive-backend
    ```
